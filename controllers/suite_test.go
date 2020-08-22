@@ -30,7 +30,6 @@ import (
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	batchv1 "cronjob-tutorial-operator/api/v1"
 	batchv1beta1 "cronjob-tutorial-operator/api/v1beta1"
 	// +kubebuilder:scaffold:imports
 )
@@ -62,9 +61,6 @@ var _ = BeforeSuite(func(done Done) {
 	cfg, err = testEnv.Start()
 	Expect(err).ToNot(HaveOccurred())
 	Expect(cfg).ToNot(BeNil())
-
-	err = batchv1.AddToScheme(scheme.Scheme)
-	Expect(err).NotTo(HaveOccurred())
 
 	err = batchv1beta1.AddToScheme(scheme.Scheme)
 	Expect(err).NotTo(HaveOccurred())

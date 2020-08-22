@@ -26,7 +26,6 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	batchv1 "cronjob-tutorial-operator/api/v1beta1"
 	batchv1beta1 "cronjob-tutorial-operator/api/v1beta1"
 	"cronjob-tutorial-operator/controllers"
 	// +kubebuilder:scaffold:imports
@@ -40,7 +39,6 @@ var (
 func init() {
 	_ = clientgoscheme.AddToScheme(scheme)
 
-	_ = batchv1.AddToScheme(scheme)
 	_ = batchv1beta1.AddToScheme(scheme)
 	// +kubebuilder:scaffold:scheme
 }
@@ -78,18 +76,10 @@ func main() {
 	}
 
 	if os.Getenv("ENABLE_WEBHOOKS") != "false" {
-		if err = (&batchv1.CronJob{}).SetupWebhookWithManager(mgr); err != nil {
+		if err = (&batchv1beta1.CronJob{}).SetupWebhookWithManager(mgr); err != nil {
 			setupLog.Error(err, "unable to create webhook", "webhook", "Captain")
 			os.Exit(1)
 		}
-	}
-	if err = (&batchv1.CronJob{}).SetupWebhookWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create webhook", "webhook", "CronJob")
-		os.Exit(1)
-	}
-	if err = (&batchv1beta1.CronJob{}).SetupWebhookWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create webhook", "webhook", "CronJob")
-		os.Exit(1)
 	}
 	if err = (&batchv1beta1.CronJob{}).SetupWebhookWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create webhook", "webhook", "CronJob")
