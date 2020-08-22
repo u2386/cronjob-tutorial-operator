@@ -50,7 +50,7 @@ func (realClock) Now() time.Time { return time.Now() }
 // Clock knows how to get the current time.
 // It can be used to fake out timing for testing.
 type Clock interface {
-    Now() time.Time
+	Now() time.Time
 }
 
 // +kubebuilder:rbac:groups=batch.tutorial.kubebuilder.io,resources=cronjobs,verbs=get;list;watch;create;update;patch;delete
@@ -59,13 +59,13 @@ type Clock interface {
 // +kubebuilder:rbac:groups=batch,resources=jobs/status,verbs=get
 
 var (
-    scheduledTimeAnnotation = "batch.tutorial.kubebuilder.io/scheduled-at"
+	scheduledTimeAnnotation = "batch.tutorial.kubebuilder.io/scheduled-at"
 )
 
 // Reconcile ...
 func (r *CronJobReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
-    ctx := context.Background()
-    log := r.Log.WithValues("cronjob", req.NamespacedName)
+	ctx := context.Background()
+	log := r.Log.WithValues("cronjob", req.NamespacedName)
 
 	// your logic here
 
@@ -89,7 +89,7 @@ func (r *CronJobReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	var successfulJobs []*kbatch.Job
 	var failedJobs []*kbatch.Job
 	var mostRecentTime *time.Time // find the last run so we can update the status
-	
+
 	isJobFinished := func(job *kbatch.Job) (bool, kbatch.JobConditionType) {
 		for _, c := range job.Status.Conditions {
 			if (c.Type == kbatch.JobComplete || c.Type == kbatch.JobFailed) && c.Status == corev1.ConditionTrue {
@@ -352,8 +352,8 @@ func (r *CronJobReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 }
 
 var (
-    jobOwnerKey = ".metadata.controller"
-    apiGVStr    = batch.GroupVersion.String()
+	jobOwnerKey = ".metadata.controller"
+	apiGVStr    = batch.GroupVersion.String()
 )
 
 // SetupWithManager ...
